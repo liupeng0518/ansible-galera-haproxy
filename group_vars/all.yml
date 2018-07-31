@@ -1,0 +1,25 @@
+---
+# haproxy和keepalived变量相关
+#
+
+vip_address: "192.168.183.201"
+vip_interface: "ens33"
+keepalived_virtual_router_id: "201"
+keepalived_password: "keepalivedpasswd"
+
+#
+haproxy_stats_port: "1984"
+haproxy_user: "haproxy"
+haproxy_password: "haproxypasswd" 
+
+api_interface_address:  "{{ hostvars[inventory_hostname]['ansible_' + vip_interface]['ipv4']['address'] }}"
+
+# Database options
+#
+mariadb_user: "root"
+mariadb_passwd: "root"
+mariadb_port: "3306"
+mariadb_wsrep_port: "4567"
+mariadb_ist_port: "4568"
+mariadb_sst_port: "4444"
+

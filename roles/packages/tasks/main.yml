@@ -1,0 +1,36 @@
+---
+#harpoxy
+- name: Install haproxy keepalived
+  yum: name={{ item }} state=present
+  with_items:
+    - keepalived
+    - haproxy
+
+# mariadb
+- name: remove mysql-libs
+  yum: name=mysql-libs state=remove
+  ignore_errors: yes
+- name: Install MariaDB server packages
+  yum: name={{ item }} state=present
+  with_items:
+    - MariaDB-client
+    - MariaDB-Galera-server
+    - galera
+- name: stop mariadb
+  service: name=mysql state=stoped
+  
+- name: Install percona-xtrabackup packages
+  yum: name={{ item }} state=present
+  with_items:
+    - percona-xtrabackup
+    - socat
+
+- name: Install other packages
+  yum: name={{ item }} state=present
+  with_items:
+    - rsync
+    - socat
+    - pv
+    - expect
+    - keepalived
+    - haproxy

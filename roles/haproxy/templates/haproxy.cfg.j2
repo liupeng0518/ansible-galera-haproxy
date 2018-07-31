@@ -1,0 +1,44 @@
+global
+  chroot /var/lib/haproxy
+  user haproxy
+  group haproxy
+  daemon
+
+  maxconn 4000
+  stats socket /var/lib/haproxy/haproxy.sock
+
+defaults
+  log global
+  mode http
+  option redispatch
+  option httplog
+  option forwardfor
+  retries 3
+  timeout http-request 10s
+  timeout queue 1m
+  timeout connect 10s
+  timeout client {{ haproxy_client_timeout }}
+  timeout server {{ haproxy_server_timeout }}
+  timeout check 10s
+
+listen stats
+   bind {{ hostvars[inventory_hostname]['ansible_' + vip_interface]['ipv4']['address'] }}:{{ haproxy_stats_port }}
+   mode http
+   stats enable
+   stats uri /
+   stats refresh 15s
+   stats realm Haproxy\ Stats
+   stats auth {{ haproxy_user }}:{{ haproxy_password }}
+
+listen mariadb
+  mode tcp
+  timeout client 3600s
+  timeout server 3600s
+  option tcplog
+  option tcpka
+  option mysql-check user haproxy post-41
+  bind {{ vip_address }}:{{ mariadb_port }}
+{% for host in groups['mariadb'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['vip_interface']]['ipv4']['address'] }}:{{ mariadb_port }} check inter 2000 rise 2 fall 5 {% if not loop.first %}backup{% endif %}
+
+{% endfor %}

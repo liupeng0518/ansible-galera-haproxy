@@ -1,0 +1,8 @@
+---
+project_name: "mariadb"
+
+####################
+# Database
+####################
+mariadb_cluster_name: "mariadb_cluster"
+# mariadb_max_timeout: 60

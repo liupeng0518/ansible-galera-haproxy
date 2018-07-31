@@ -1,0 +1,6 @@
+---
+project_name: "haproxy"
+
+
+haproxy_client_timeout: "1m"
+haproxy_server_timeout: "1m"

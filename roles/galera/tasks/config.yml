@@ -1,0 +1,17 @@
+---
+- name: Copying over mariadb config file
+  template:
+    src: "galera.cnf.j2"
+    dest: "/etc/my.cnf.d/galera.cnf"
+    mode: 0644
+    owner: mysql
+    group: mysql
+  # notify: restart mariadb
+    
+- name: Copying over mariadb config file
+  template:
+    src: "wsrep-notify.sh.j2"
+    dest: "/usr/local/bin/wsrep-notify.sh"
+    mode: 0755
+    owner: mysql
+    group: mysql

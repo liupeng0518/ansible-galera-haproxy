@@ -1,0 +1,23 @@
+---
+- hosts: all
+  roles:
+    # - { role: security, tags: [ 'setup' ] }
+    # - { role: galera_repos, tags: [ 'setup', 'packages' ] }
+    # - { role: galera_packages, tags: [ 'setup', 'packages' ] }
+    # - { role: galera_privs, tags: [ 'auth' ] }
+    # - { role: galera_conf, tags: [ 'config' ] }
+
+    - createHosts
+    - security
+    - repos
+    - packages
+
+- hosts: haproxy
+  roles:
+    - haproxy
+
+
+
+- hosts: mariadb
+  roles:
+    - galera
