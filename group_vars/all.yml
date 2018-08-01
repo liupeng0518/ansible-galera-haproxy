@@ -12,7 +12,8 @@ haproxy_stats_port: "1984"
 haproxy_user: "haproxy"
 haproxy_password: "haproxypasswd" 
 
-api_interface_address:  "{{ hostvars[inventory_hostname]['ansible_' + vip_interface]['ipv4']['address'] }}"
+db_interface: "ens33"
+rel_interface_address:  "{{ hostvars[inventory_hostname]['ansible_' + db_interface]['ipv4']['address'] }}"
 
 # Database options
 #

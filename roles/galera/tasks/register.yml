@@ -1,0 +1,6 @@
+---
+- name: Creating haproxy mysql user
+
+  shell: mysql -u{{ mariadb_user }} -p{{ mariadb_passwd }} -e "grant all privileges on *.* to haroxyp@'%' identified by '';"
+  run_once: True
+

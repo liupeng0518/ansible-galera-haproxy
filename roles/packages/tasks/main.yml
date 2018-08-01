@@ -16,8 +16,8 @@
     - MariaDB-client
     - MariaDB-Galera-server
     - galera
-- name: stop mariadb
-  service: name=mysql state=stoped
+# - name: stop mariadb
+#   service: name=mysql state=stoped
   
 - name: Install percona-xtrabackup packages
   yum: name={{ item }} state=present

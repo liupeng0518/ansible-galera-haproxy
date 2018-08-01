@@ -7,13 +7,14 @@
     enabled: yes
 
 #
+- name: Starting haproxy
+  service:
+    name: haproxy
+    state: started
+    enabled: yes
+
+#
 - name: Waiting for virtual IP to appear
   wait_for:
     host: "{{ vip_address }}"
     port: "{{ mariadb_port }}"
-#
-- name: Starting haproxy
-  service:
-    name: keepalived
-    state: started
-    enabled: yes

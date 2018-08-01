@@ -1,0 +1,24 @@
+---
+
+- name: Stop MariaDB on first MariaDB Galera cluster node
+  service: name=mysql state=stopped
+  when: inventory_hostname == groups['mariadb'][0]
+    
+- name: Starting first MariaDB server
+  shell: mysqld_safe --user=root  --wsrep-new-cluster &
+  when: inventory_hostname == groups['mariadb'][0]
+
+- name: Set MariaDB root password
+  shell: mysqladmin -u root password {{ mariadb_passwd }}
+  when: inventory_hostname == groups['mariadb'][0]
+
+# - name: Set MariaDB root password
+#   mysql_user:
+#     name: root
+#     password: "{{ galera_root_password }}"
+#     host: localhost
+#     state: present
+
+- name: Restart the other MariaDB Galera cluster nodes
+  service: name=mysql state=restarted
+  when: inventory_hostname != groups['mariadb'][0]
