@@ -1,24 +1,33 @@
 ---
 
 - name: Stop MariaDB on first MariaDB Galera cluster node
-  service: name=mysql state=stopped
+  service: name=mariadb state=stopped
   when: inventory_hostname == groups['mariadb'][0]
     
 - name: Starting first MariaDB server
-  shell: mysqld_safe --user=root  --wsrep-new-cluster &
+  command: galera_new_cluster
   when: inventory_hostname == groups['mariadb'][0]
 
 - name: Set MariaDB root password
   shell: mysqladmin -u root password {{ mariadb_passwd }}
   when: inventory_hostname == groups['mariadb'][0]
 
+- name: root remote access
+  shell: mysql -u{{ mariadb_user }} -p{{ mariadb_passwd }} -e "{{ item }}" 
+  with_items:
+    - "grant all privileges  on *.* to root@'%' identified by '{{ mariadb_passwd }}';"
+    - "grant all privileges  on *.* to root@'{{ ansible_hostname }}' identified by '{{ mariadb_passwd }}';"
+
+    - "flush privileges;"
+  when: inventory_hostname == groups['mariadb'][0]
+
 # - name: Set MariaDB root password
 #   mysql_user:
 #     name: root
-#     password: "{{ galera_root_password }}"
-#     host: localhost
+#     password: "{{ mariadb_passwd }}"
+#     host: %
 #     state: present
 
 - name: Restart the other MariaDB Galera cluster nodes
-  service: name=mysql state=restarted
+  service: name=mariadb state=restarted
   when: inventory_hostname != groups['mariadb'][0]

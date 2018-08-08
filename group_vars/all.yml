@@ -16,9 +16,11 @@ db_interface: "ens33"
 rel_interface_address:  "{{ hostvars[inventory_hostname]['ansible_' + db_interface]['ipv4']['address'] }}"
 
 # Database options
-#
+# 不要修改root用户名
 mariadb_user: "root"
+#
 mariadb_passwd: "root"
+#
 mariadb_port: "3306"
 mariadb_wsrep_port: "4567"
 mariadb_ist_port: "4568"

@@ -21,6 +21,8 @@ character-set-server = utf8
 
 datadir=/var/lib/mysql/
 
+wsrep_on=ON
+
 wsrep_cluster_address=gcomm://{% if (groups['mariadb'] | length) > 1 %}{% for host in groups['mariadb'] %}{{ hostvars[host]['ansible_' + hostvars[host]['db_interface']]['ipv4']['address'] }}:{{ mariadb_wsrep_port }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}
 
 wsrep_provider_options=gmcast.listen_addr=tcp://{{ rel_interface_address }}:{{ mariadb_wsrep_port }};ist.recv_addr={{ rel_interface_address }}:{{ mariadb_ist_port }}
@@ -31,7 +33,9 @@ wsrep_sst_receive_address={{ rel_interface_address }}:{{ mariadb_sst_port }}
 wsrep_provider=/usr/lib64/galera/libgalera_smm.so
 wsrep_cluster_name="{{ mariadb_cluster_name }}"
 wsrep_node_name={{ ansible_hostname }}
-wsrep_sst_method=xtrabackup-v2
+# wsrep_sst_method=xtrabackup-v2
+wsrep_sst_method = mariabackup
+
 wsrep_sst_auth={{ mariadb_user }}:{{ mariadb_passwd }}
 wsrep_slave_threads=4
 wsrep_notify_cmd=/usr/local/bin/wsrep-notify.sh

@@ -12,6 +12,6 @@
   template:
     src: "wsrep-notify.sh.j2"
     dest: "/usr/local/bin/wsrep-notify.sh"
-    mode: 0755
+    mode: 0700
     owner: mysql
     group: mysql

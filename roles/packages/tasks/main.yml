@@ -14,7 +14,8 @@
   yum: name={{ item }} state=present
   with_items:
     - MariaDB-client
-    - MariaDB-Galera-server
+    - MariaDB-server
+    - MariaDB-backup
     - galera
 # - name: stop mariadb
 #   service: name=mysql state=stoped
@@ -22,15 +23,15 @@
 - name: Install percona-xtrabackup packages
   yum: name={{ item }} state=present
   with_items:
-    - percona-xtrabackup
+    - percona-xtrabackup-24
     - socat
 
 - name: Install other packages
   yum: name={{ item }} state=present
   with_items:
+    - MySQL-python
     - rsync
-    - socat
-    - pv
+    # - pv
     - expect
-    - keepalived
-    - haproxy
+    # - keepalived
+    # - haproxy
