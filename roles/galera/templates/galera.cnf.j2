@@ -16,7 +16,7 @@ default-storage-engine=innodb
 innodb_autoinc_lock_mode=2
 
 collation-server = utf8_general_ci
-init-connect='SET NAMES utf8'
+init-connect = SET NAMES utf8
 character-set-server = utf8
 
 datadir=/var/lib/mysql/
@@ -31,7 +31,7 @@ wsrep_node_address={{ rel_interface_address }}:{{ mariadb_wsrep_port }}
 wsrep_sst_receive_address={{ rel_interface_address }}:{{ mariadb_sst_port }}
 
 wsrep_provider=/usr/lib64/galera/libgalera_smm.so
-wsrep_cluster_name="{{ mariadb_cluster_name }}"
+wsrep_cluster_name = {{ mariadb_cluster_name }}
 wsrep_node_name={{ ansible_hostname }}
 # wsrep_sst_method=xtrabackup-v2
 wsrep_sst_method = mariabackup
@@ -42,14 +42,14 @@ wsrep_notify_cmd=/usr/local/bin/wsrep-notify.sh
 
 max_connections=10000
 
-key_buffer_size = '64M'
-max_heap_table_size = '64M'
-tmp_table_size = '64M'
+key_buffer_size = 64M
+max_heap_table_size = 64M
+tmp_table_size = 64M
 {% set dynamic_pool_size_mb = (hostvars[inventory_hostname]['ansible_memtotal_mb'] * 0.4) | round | int %}
 {% if dynamic_pool_size_mb < 8192 %}
-innodb_buffer_pool_size = '{{ dynamic_pool_size_mb }}M'
+innodb_buffer_pool_size = {{ dynamic_pool_size_mb }}M
 {% else %}
-innodb_buffer_pool_size = '8192M'
+innodb_buffer_pool_size = 8192M
 {% endif %}
 
 [server]
