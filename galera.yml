@@ -1,16 +1,11 @@
 ---
 - hosts: all
   roles:
-    # - { role: security, tags: [ 'setup' ] }
-    # - { role: galera_repos, tags: [ 'setup', 'packages' ] }
-    # - { role: galera_packages, tags: [ 'setup', 'packages' ] }
-    # - { role: galera_privs, tags: [ 'auth' ] }
-    # - { role: galera_conf, tags: [ 'config' ] }
 
-    - createHosts
-    - security
-    - repos
-    - packages
+    - { role: createHosts, tags: ['setup'] }
+    - { role: security, tags: ['setup'] }
+    - { role: repos, tags: ['setup', 'packages'] }
+    - { role: packages, tags: ['setup', 'packages'] }
 
 - hosts: haproxy
   roles:

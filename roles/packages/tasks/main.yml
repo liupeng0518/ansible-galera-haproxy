@@ -1,4 +1,7 @@
 ---
+- name: yum-clean-metadata
+  command: yum clean all
+
 #harpoxy
 - name: Install haproxy keepalived
   yum: name={{ item }} state=present
