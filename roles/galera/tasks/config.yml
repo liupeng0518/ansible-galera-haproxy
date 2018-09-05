@@ -1,11 +1,22 @@
 ---
 - name: Copying over mariadb config file
   template:
+    src: "my.cnf.j2"
+    dest: "/etc/my.cnf"
+    mode: 0644
+    owner: mysql
+    group: mysql
+    backup: yes
+
+- name: Copying over mariadb config file
+  template:
     src: "galera.cnf.j2"
     dest: "/etc/my.cnf.d/galera.cnf"
     mode: 0644
     owner: mysql
     group: mysql
+    backup: yes
+
   # notify: restart mariadb
     
 - name: Copying over mariadb config file
@@ -15,3 +26,4 @@
     mode: 0700
     owner: mysql
     group: mysql
+    backup: yes

@@ -1,7 +1,26 @@
 # ansible-galera-haproxy
 deploy galera cluster with haproxy
 
-version 0.1 支持部署安装，暂不支持更新配置
+- version 0.1 支持部署安装，暂不支持更新配置
+
+# 架构说明
+keepalived + haproxy 提供vip及负载  
+mariadb数据库高可用集群方式是mariadb cluster(galera) 方式提供
+
+```
+               vip
+                |
+    -------------------------
+    |           |           |
+keepalived  keepalived  keepalived
+haproxy     haproxy     haproxy
+    |           |           |
+    -------------------------
+    |           |           |
+mariadb     mariadb     mariadb
+```
+
+
 
 # 版本要求
 在 centos7.3 测试 ok，支持<= centos/rhel 7.3的操作系统
@@ -70,3 +89,6 @@ MariaDB [mysql]> show status like 'wsrep_%';
 - wsrep_incoming_addresses = xxx.xxx.xxx.xxx:3306,xxx.xxx.xxx.xxx:3306,1xxx.xxx.xxx.xxx:3306 集群中节点的访问地址
 
 ## 6. 验证
+1. 单节点登陆创建数据库或者表，其他节点是否可以同步
+2. vip访问是否可以看到创建的数据库
+3. 关闭其中一个或两个节点数据库服务是否可用

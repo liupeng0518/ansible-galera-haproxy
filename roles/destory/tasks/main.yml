@@ -1,0 +1,6 @@
+---
+
+- include: uninstall_haproxy.yml
+  tags: harproxy
+- include: uninstall_mariadb.yml
+  tags: mariadb

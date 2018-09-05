@@ -9,10 +9,10 @@
 
 - hosts: haproxy
   roles:
-    - haproxy
+    - { role: haproxy, tags: ['haproxy'] }
 
 
 
 - hosts: mariadb
   roles:
-    - galera
+    - { role: galera, tags: ['galera'] }

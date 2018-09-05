@@ -15,8 +15,13 @@
 - name: root remote access
   shell: mysql -u{{ mariadb_user }} -p{{ mariadb_passwd }} -e "{{ item }}" 
   with_items:
-    - "grant all privileges  on *.* to root@'%' identified by '{{ mariadb_passwd }}';"
-    - "grant all privileges  on *.* to root@'{{ ansible_hostname }}' identified by '{{ mariadb_passwd }}';"
+    # - "grant all on *.* to root@'%' identified by '{{ mariadb_passwd }}';"
+    # - "UPDATE mysql.user SET password=PASSWORD('{{ mariadb_passwd }}') WHERE (Host='127.0.0.1') AND (User='root');"
+    # - "UPDATE mysql.user SET password=PASSWORD('{{ mariadb_passwd }}') WHERE (Host='{{ ansible_hostname }}') AND (User='root');"
+    # - "UPDATE mysql.user SET plugin = '' WHERE plugin = 'mysql_native_password';"
+    - "UPDATE mysql.user SET password=PASSWORD('{{ mariadb_passwd }}') WHERE (User='root');"
+    - "grant all on *.* to root@'%' identified by '{{ mariadb_passwd }}';"
+    - "delete from mysql.user where user='';"
 
     - "flush privileges;"
   when: inventory_hostname == groups['mariadb'][0]

@@ -1,37 +1,6 @@
 ---
 
-# - name: create repos directories exist
-#   file:
-#     path: "/media/{{ item }}"
-#     state: "directory"
-#     recurse: yes
-#   with_items:
-#     - "haproxy"
-#     - "mariadb"
 
-#
-- name: create backup existing repos
-  file: path=/etc/yum.repos.d/bak state=directory
-- name: backup existing repos
-  shell: "mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/bak/"
-# haproxy
-- name: Add haproxy repo
-  template: src=yum.repos.d/haproxy.repo.j2 dest=/etc/yum.repos.d/haproxy.repo
-    owner=root group=root mode=0644
-
-- name: Extract haproxy packages
-  unarchive:
-    src=haproxy.tar.gz
-    dest=/media/
-
-# mariadb
-- name: Add MariaDB repo
-  template: src=yum.repos.d/mariadb.repo.j2 dest=/etc/yum.repos.d/mariadb.repo
-    owner=root group=root mode=0644
-
-
-- name: Extract MariaDB packages
-  unarchive:
-    src=mariadb.tar.gz
-    dest=/media/
-
+- include: common.yml
+- include: haproxy.yml
+- include: mariadb.yml

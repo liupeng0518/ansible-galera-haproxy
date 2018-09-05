@@ -1,0 +1,17 @@
+---
+#
+
+# - name: create repos directories exist
+#   file:
+#     path: "/media/{{ item }}"
+#     state: "directory"
+#     recurse: yes
+#   with_items:
+#     - "haproxy"
+#     - "mariadb"
+
+#
+- name: create backup existing repos
+  file: path=/etc/yum.repos.d/bak state=directory
+- name: backup existing repos
+  shell: "mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/bak/"

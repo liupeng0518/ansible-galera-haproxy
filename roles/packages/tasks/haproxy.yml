@@ -1,0 +1,15 @@
+---
+- name: yum-clean-metadata
+  command: yum clean all
+
+#harpoxy
+- name: Install haproxy keepalived
+  yum: name={{ item }} state=present enablerepo="haproxy"
+  with_items:
+    - keepalived
+    - haproxy
+
+- name: Install other packages(haproxy)
+  yum: name={{ item }} state=present enablerepo="haproxy"
+  with_items:
+    - socat

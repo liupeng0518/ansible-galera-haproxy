@@ -1,0 +1,50 @@
+---
+
+
+- name: Stop service mariadb, if running
+  service:
+    name: mariadb
+    state: stopped
+
+- name: uninstall mariadb
+  yum:
+    name: mariadb*
+    state: absent
+
+
+- name: uninstall mysql
+  yum:
+    name: mysql*
+    state: absent
+
+- name: uninstall galera
+  yum:
+    name: galera*
+    state: absent
+
+- name: backup /var/lib/mysql
+  stat: path=/var/lib/mysql
+  register: mysql_existed
+
+- name: backup /var/lib/mysql
+  command: mv /var/lib/mysql/ /var/lib/mysql.{{ ansible_date_time.iso8601_micro }}
+  when: mysql_existed.stat.exists
+
+
+- name: check if /etc/my.cnf existed
+  stat: path=/etc/my.cnf
+  register: mycnf_existed
+
+- name: backup file /etc/my.cnf
+  command: mv /etc/my.cnf /etc/my.cnf.{{ ansible_date_time.iso8601_micro }}
+  when: mycnf_existed.stat.exists
+
+- name: check if /etc/my.cnf.d existed
+  stat: path=/etc/my.cnf.d/
+  register: mycnfd_existed
+
+- name: backup file /etc/my.cnf.d
+  command: mv /etc/my.cnf.d /etc/my.cnf.d.{{ ansible_date_time.iso8601_micro }}
+  when: mycnfd_existed.stat.exists
+
+  

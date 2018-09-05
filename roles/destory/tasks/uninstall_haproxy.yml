@@ -1,0 +1,15 @@
+---
+
+- name: Stop service haproxy & keepalived, if running
+  service: name={{ item }} state=stopped
+
+  with_items:
+    - haproxy
+    - keepalived
+
+
+- name: uninstall mariadb
+  yum: name={{ item }} state=absent
+  with_items:
+    - haproxy
+    - keepalived

@@ -13,6 +13,7 @@
     src: "{{ item }}"
     dest: "/check_alive.sh"
     mode: 0755
+    backup: yes
   with_items:
     - "check_alive.sh.j2"
 
@@ -20,6 +21,7 @@
   template:
     src: "{{ item }}"
     dest: "/etc/haproxy/haproxy.cfg"
+    backup: yes
   with_items:
     - "haproxy.cfg.j2"
   notify: restart haproxy
@@ -28,6 +30,7 @@
   template:
     src: "{{ item }}"
     dest: "/etc/keepalived/keepalived.conf"
+    backup: yes
   with_items:
     - "keepalived.conf.j2"
   notify: restart keepalived

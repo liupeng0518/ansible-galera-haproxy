@@ -1,0 +1,11 @@
+---
+
+# haproxy
+- name: Add haproxy repo
+  template: src=yum.repos.d/haproxy.repo.j2 dest=/etc/yum.repos.d/haproxy.repo
+    owner=root group=root mode=0644
+
+- name: Extract haproxy packages
+  unarchive:
+    src=haproxy.tar.gz
+    dest=/media/

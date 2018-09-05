@@ -1,0 +1,31 @@
+---
+- name: yum-clean-metadata
+  command: yum clean all
+
+
+# mariadb
+- name: remove mysql-libs
+  yum: name=mysql-libs state=remove
+  ignore_errors: yes
+- name: Install MariaDB server packages
+  yum: name={{ item }} state=present enablerepo="mariadb"
+  with_items:
+    - MariaDB-client
+    - MariaDB-server
+    - MariaDB-backup
+    - galera
+# stop mariadb service
+- name: stop mariadb
+  service: name=mysql state=stopped enabled=no
+
+- name: Install other packages(mariadb)
+  yum: name={{ item }} state=present enablerepo="mariadb"
+  with_items:
+    # - percona-xtrabackup-24
+    - socat
+
+    - MySQL-python
+    - rsync
+    # - pv
+    - expect
+    - qpress

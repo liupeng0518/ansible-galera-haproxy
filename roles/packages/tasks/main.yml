@@ -1,40 +1,6 @@
 ---
-- name: yum-clean-metadata
-  command: yum clean all
 
-#harpoxy
-- name: Install haproxy keepalived
-  yum: name={{ item }} state=present
-  with_items:
-    - keepalived
-    - haproxy
-
-# mariadb
-- name: remove mysql-libs
-  yum: name=mysql-libs state=remove
-  ignore_errors: yes
-- name: Install MariaDB server packages
-  yum: name={{ item }} state=present
-  with_items:
-    - MariaDB-client
-    - MariaDB-server
-    - MariaDB-backup
-    - galera
-# - name: stop mariadb
-#   service: name=mysql state=stoped
-  
-- name: Install percona-xtrabackup packages
-  yum: name={{ item }} state=present
-  with_items:
-    - percona-xtrabackup-24
-    - socat
-
-- name: Install other packages
-  yum: name={{ item }} state=present
-  with_items:
-    - MySQL-python
-    - rsync
-    # - pv
-    - expect
-    # - keepalived
-    # - haproxy
+- include: haproxy.yml
+  # tags: haproxy
+- include: mariadb.yml
+  # tags: galera
