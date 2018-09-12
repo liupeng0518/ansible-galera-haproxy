@@ -5,7 +5,7 @@
 
 # mariadb
 - name: remove mysql-libs
-  yum: name=mysql-libs state=remove
+  yum: name=mysql-libs state=removed
   ignore_errors: yes
 - name: Install MariaDB server packages
   yum: name={{ item }} state=present enablerepo="mariadb"
